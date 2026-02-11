@@ -18,14 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ClienteController {
-    
-    @PersistenceContext
-    private EntityManager manager;
-    
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @GetMapping("/clientes")
     public List<Cliente> listas() {
-    
-        return manager.createQuery("from Cliente", Cliente.class).getResultList();
+
+        return clienteRepository.findAll();
+        //return clienteRepository.findByNome("KGe");
+        //return clienteRepository.findByNomeContaining("Silva");
     }
-    
+
+    @GetMapping("/clientes/{clienteID}")
+    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID) {
+        Optional<Cliente> cliente = clienteRepository.findById(clienteID);
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+       
+    }
 }

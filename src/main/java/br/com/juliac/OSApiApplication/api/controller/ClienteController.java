@@ -6,6 +6,7 @@ package br.com.juliac.OSApiApplication.api.controller;
 
 import br.com.juliac.OSApiApplication.domain.model.Cliente;
 import br.com.juliac.OSApiApplication.domain.repository.ClienteRepository;
+import br.com.juliac.OSApiApplication.domain.service.ClienteService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
@@ -33,6 +34,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    
+    @Autowired
+    private ClienteService clienteService;
 
     @GetMapping("/clientes")
     public List<Cliente> listas() {
@@ -56,7 +60,7 @@ public class ClienteController {
     @PostMapping("/clientes")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-        return clienteRepository.save(cliente);
+        return clienteService.salvar(cliente);
     }
     
     @PutMapping("/clientes/{clienteID}")
@@ -68,7 +72,7 @@ public class ClienteController {
         }
         
         cliente.setId(clienteID);
-        cliente = clienteRepository.save(cliente);
+        cliente = clienteService.salvar(cliente);
         return ResponseEntity.ok(cliente);
     }
     
@@ -80,7 +84,7 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
         
-        clienteRepository.deleteById(clienteID);
+        clienteService.excluir(clienteID);
         return ResponseEntity.noContent().build();
         
     }

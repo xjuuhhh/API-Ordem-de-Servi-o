@@ -21,7 +21,7 @@ public class OrdemServicoService {
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
 
-    public OrdemSerivco criar(OrdemServico ordemServico) {
+    public OrdemServico criar(OrdemServico ordemServico) {
         ordemServico.setStatus(StatusOrdemServico.ABERTA);
         ordemServico.setDataAbertura(LocalDateTime.now());
 

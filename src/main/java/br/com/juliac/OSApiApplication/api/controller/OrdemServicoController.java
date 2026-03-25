@@ -21,11 +21,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.juliac.OSApiApplication.domain.dto.AtualizaStatusDTO;
 
 /**
  *
  * @author sesi3dia
  */
+/**
+ * Implementa o endpoint para alteração de Status
+ *
+ * @param ordemServicoID Identificação da OS
+ * @param statusDTO - Status a ser atribuído
+ * @return 200 Ok, 404 ou throw exception
+ */
+
 @RestController
 @RequestMapping("/ordem-servico")
 public class OrdemServicoController {

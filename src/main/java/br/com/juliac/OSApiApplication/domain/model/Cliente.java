@@ -4,6 +4,7 @@
  */
 package br.com.juliac.OSApiApplication.domain.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,19 +23,23 @@ import jakarta.validation.constraints.Size;
 @Entity        
 public class Cliente {
     
+    @Schema(description = "Código identificador do cliente", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
+    @Schema(description = "Nome completo do cliente", example = "João da Silva", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Size(max = 60)
     private String nome;
     
+    @Schema(description = "E-mail de contato", example = "joao@email.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Email
     @Size(max = 255)
     private String email;
     
+    @Schema(description = "Telefone para contato", example = "11 98888-7777", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Size(max = 20)
     @Column(name = "telefone")

@@ -7,6 +7,10 @@ package br.com.juliac.OSApiApplication.api.controller;
 import br.com.juliac.OSApiApplication.domain.model.Cliente;
 import br.com.juliac.OSApiApplication.domain.repository.ClienteRepository;
 import br.com.juliac.OSApiApplication.domain.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
@@ -38,6 +42,16 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    /**
+     * Endpoint clientes
+     * Lista os clientes da base de dados
+     * @return Lista Clientes.
+     */
+    
+    @Operation(summary = "Listar todos os clientes", description = "Retorna uma lista completa de clientes cadastrados")
+    @ApiResponses(value ={
+        @ApiResponse(responseCode = "200", description = "Lista de clientes recuperada com sucesso")
+    })
     @GetMapping("/clientes")
     public List<Cliente> listas() {
 
@@ -46,8 +60,23 @@ public class ClienteController {
         //return clienteRepository.findByNomeContaining("Silva");
     }
 
+    
+    /**
+     * Clientes por ID
+     * @param clienteID
+     * @return Cliente correspondente.
+     */
+    @Operation(summary = "Busca o cliente pelo ID", description = "Retorna detalhes de um cliente a partir do id")
+    @ApiResponses (value = {
+        @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @GetMapping("/clientes/{clienteID}")
-    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID) {
+    public ResponseEntity<Cliente> buscar(
+            @PathVariable 
+            @Parameter(name = "clienteID", description = "número de identificação(id) do cliente para pesquisa", example = "1")
+            Long clienteID
+    ) {
         Optional<Cliente> cliente = clienteRepository.findById(clienteID);
         if (cliente.isPresent()) {
             return ResponseEntity.ok(cliente.get());
@@ -56,7 +85,11 @@ public class ClienteController {
         }
        
     }
-    
+    /**
+     * 
+     * @param cliente
+     * @return 
+     */
     @PostMapping("/clientes")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente) {

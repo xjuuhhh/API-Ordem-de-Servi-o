@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.juliac.OSApiApplication.domain.dto.AtualizaStatusDTO;
+import br.com.juliac.OSApiApplication.domain.dto.ComentarioInput;
+import br.com.juliac.OSApiApplication.domain.model.Comentario;
 
 /**
  *
@@ -87,5 +89,12 @@ public class OrdemServicoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    
+    @PostMapping("/{ordemServicoId}/comentario")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Comentario adicionarComentario(@PathVariable Long ordemServicoId,
+                                         @Valid @RequestBody ComentarioInput comentarioInput){
+        return ordemServicoService.adicionarComentario(ordemServicoId, comentarioInput.descricao());
     }
 }

@@ -28,18 +28,18 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Schema(description = "Nome completo do cliente", example = "João da Silva", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Nome completo do cliente", example = "Julia Beatriz Santos Costa", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Size(max = 60)
     private String nome;
     
-    @Schema(description = "E-mail de contato", example = "joao@email.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "E-mail de contato", example = "juliabcosta@email.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Email
     @Size(max = 255)
     private String email;
     
-    @Schema(description = "Telefone para contato", example = "11 98888-7777", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Telefone para contato", example = "11 99999-9999", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     @Size(max = 20)
     @Column(name = "telefone")

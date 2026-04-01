@@ -11,8 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,6 +37,9 @@ public class OrdemServico {
 
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
+
+    @OneToMany(mappedBy = "ordemServico")
+    private List<Comentario> comentarios = new ArrayList<>();
 
     private LocalDateTime dataAbertura;
     private LocalDateTime dataFinalizacao;
@@ -124,6 +130,5 @@ public class OrdemServico {
         final OrdemServico other = (OrdemServico) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

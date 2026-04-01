@@ -5,8 +5,10 @@
 package br.com.juliac.OSApiApplication.domain.service;
 
 import br.com.juliac.OSApiApplication.domain.exception.DomainException;
+import br.com.juliac.OSApiApplication.domain.model.Comentario;
 import br.com.juliac.OSApiApplication.domain.model.OrdemServico;
 import br.com.juliac.OSApiApplication.domain.model.StatusOrdemServico;
+import br.com.juliac.OSApiApplication.domain.repository.ComentarioRepository;
 import br.com.juliac.OSApiApplication.domain.repository.OrdemServicoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,11 +21,14 @@ import org.springframework.stereotype.Service;
  * @author sesi3dia
  */
 
-@Service
+@Service//avisa a spring que essa classe tem regras de negócio
 public class OrdemServicoService {
 
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
+    
+    @Autowired
+    private ComentarioRepository comentarioRepository;
     
     public Optional<OrdemServico> atualizaStatus(Long ordemServicoID, StatusOrdemServico status) {
 
@@ -82,7 +87,35 @@ public class OrdemServicoService {
         return ordemServicoRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Lista OS por Cliente
+     * @param clienteId
+     * @return 
+     */
     public List<OrdemServico> listarPorCliente(Long clienteId) {
         return ordemServicoRepository.findByClienteId(clienteId);
+    }
+    
+    
+    /**
+     * Adiciona comentario a Ordem de Serviço.
+     * @param ordemServicoId
+     * @param descricao
+     * @return 
+     */
+    public Comentario adicionarComentario(Long ordemServicoId, String descricao) {
+        OrdemServico ordemServico = buscar(ordemServicoId); //busca a ordem de serviço que o usuario fonece
+        
+        if (ordemServico == null) {
+            throw new DomainException("Ordem de serviço não encontrada");
+        } else {
+            Comentario comentario = new Comentario();
+            //salvar no banco de dados
+            comentario.setDescricao(descricao);
+            comentario.setDataEnvio(LocalDateTime.now());
+            comentario.setOrdemServico(ordemServico);
+            
+            return comentarioRepository.save(comentario);
+        }
     }
 }
